@@ -50,47 +50,5 @@
         </div>
       </div>
     </section>
-    {{-- <section class="py-5">
-      <div class="row">
-        <!-- Inline Form-->
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8 mb-5">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="h6 text-uppercase mb-0">Cari Kwitansi</h3>
-            </div>
-            <div class="card-body">
-              <form method="GET" action="<?=base_url()?>admin/Member/list" class="form-inline">
-                <div class="row">
-                  <div class="col-md-8 mb-3">
-                    <div class="form-group">
-                      <label for="inlineFormInput" class="sr-only">Nama Kegiatan/Kelas</label>
-                      <select id="judul" name="judul" class="mr-3 form-control select2">
-                        <option>Pilih</option>
-                        <?php
-                        foreach ($kelas_list as $item) { ?>
-                        <option value="<?=$item->judul?>"><?=$item->judul?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <button type="submit" id="submit" style="float: right;" class="btn btn-primary">Submit</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-2"></div>
-      </div>
-    </section> --}}
   </div>
-  <script>
-    // $(document).on('click', '#submit', function(){
-    //     var judul=$('#judul option:selected').val()
-    //     console.log(judul)
-    //     window.location.href = "<?php echo base_url() ?>admin/Member/list?judul=" + judul;
-    // });
-  </script>
 @endsection
