@@ -20,31 +20,31 @@ class UsersTableSeeder extends Seeder
     {
         $admin = User::firstOrCreate([
             'name' => 'Admin',
-            'email' => 'admin@lpkn.org',
+            'email' => 'admin@invoice.id',
             'password' => Hash::make('123123'),
             'email_verified_at' => now(),
             'remember_token'    => Str::random(10)
         ]);
 
-        $keuangan = User::firstOrCreate([
-            'name' => 'Staff Keuangan',
-            'email' => 'keuangan@lpkn.org',
+        $user = User::firstOrCreate([
+            'name' => 'User 1',
+            'email' => 'user1@invoice.id',
             'password' => Hash::make('123123'),
             'email_verified_at' => now(),
             'remember_token'    => Str::random(10)
         ]);
 
-        $panitia = User::firstOrCreate([
-            'name' => 'Staff Panitia',
-            'email' => 'panitia@lpkn.org',
+        $user2 = User::firstOrCreate([
+            'name' => 'User 2',
+            'email' => 'user2@invoice.id',
             'password' => Hash::make('123123'),
             'email_verified_at' => now(),
             'remember_token'    => Str::random(10)
         ]);
 
         $admin->assignRole('admin');
-        $keuangan->assignRole('keuangan');
-        $panitia->assignRole('panitia');
+        $user->assignRole('user');
+        $user2->assignRole('user');
 
     }
 }

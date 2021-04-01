@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Auth::routes();
@@ -24,15 +24,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('dashboard', 'admin\HomeController@index')->name('admin.dashboard');
+    Route::resource('user', 'admin\UsersController');
+    Route::resource('barang', 'admin\BarangController');
+    Route::get('invoice', 'admin\InvoiceController@index')->name('admin.invoice');
 });
 
-Route::group(['prefix' => 'keuangan'], function () {
-    Route::get('dashboard', 'keuangan\HomeController@index')->name('keuangan.dashboard');
-    Route::get('kwitansi', 'keuangan\KwitansiController@index')->name('keuangan.kwitansi');
-    Route::get('profile', 'keuangan\ProfileController@index')->name('keuangan.profile');
-});
-
-Route::group(['prefix' => 'panitia'], function () {
-    Route::get('dashboard', 'panitia\HomeController@index')->name('panitia.dashboard');
+Route::group(['prefix' => 'user'], function () {
+    Route::get('dashboard', 'user\HomeController@index')->name('user.dashboard');
+    Route::get('invoice', 'user\InvoiceController@index')->name('user.invoice');
+    Route::get('invoice/create', 'user\InvoiceController@create')->name('user.invoice.create');
 });
 

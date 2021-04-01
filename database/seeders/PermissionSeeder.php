@@ -27,10 +27,14 @@ class PermissionSeeder extends Seeder
             'permission-create',
             'permission-edit',
             'permission-delete',
-            'member_kwitansi-list',
-            'member_kwitansi-create',
-            'member_kwitansi-delete',
-            'member_kwitansi-edit',
+            'barang-list',
+            'barang-create',
+            'barang-delete',
+            'barang-edit',
+            'invoice-list',
+            'invoice-create',
+            'invoice-delete',
+            'invoice-edit',
         ];
 
         foreach ($permissions as $permission) {

@@ -17,8 +17,7 @@ class RoleSeeder extends Seeder
     {
         $roles_array = [
             'admin',
-            'keuangan',
-            'panitia',
+            'user',
         ];
 
         foreach ($roles_array as $role) {
@@ -26,6 +25,8 @@ class RoleSeeder extends Seeder
 
             if( $toRole->name == 'admin' ) {
                 $toRole->givePermissionTo(Permission::all());
+            } else {
+                $toRole->givePermissionTo(['invoice-list','invoice-create','invoice-delete','invoice-edit']);
             }
         }
     }

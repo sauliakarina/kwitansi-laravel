@@ -38,8 +38,11 @@
     <script src="{{ asset('') }}/plugins/select2/js/select2.full.min.js"></script>
     <!-- sweetalert -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    {{-- mask number --}}
+    <script src="{{ asset('') }}plugins/numberformat/dist/jquery.masknumber.js"></script>
+
     <!-- datatable -->
-    <link rel="stylesheet"
+    {{-- <link rel="stylesheet"
         href="{{ asset('') }}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet"
         href="{{ asset('') }}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -48,7 +51,10 @@
     <script src="{{ asset('') }}/plugins/datatables-responsive/js/dataTables.responsive.min.js">
     </script>
     <script src="{{ asset('') }}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js">
-    </script>
+    </script> --}}
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
     <!-- Tweaks for older IEs-->
     <!--[if lt IE 9]>
