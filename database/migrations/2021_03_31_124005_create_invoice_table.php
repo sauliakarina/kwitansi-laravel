@@ -17,7 +17,7 @@ class CreateInvoiceTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->date('tanggal');
-            $table->enum('status',['pending','approved','decline','cancel']);
+            $table->enum('status',['0','1','2','3'])->default('0');
             $table->text('reason')->nullable();
             $table->dateTime('waktu_approve')->nullable();
             $table->timestamps();

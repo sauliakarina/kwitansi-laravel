@@ -17,6 +17,7 @@ class CreateInvoiceBarangTable extends Migration
             $table->id();
             $table->integer('invoice_id');
             $table->integer('barang_id');
+            $table->integer('kuantiti');
             $table->timestamps();
         });
     }
