@@ -3,28 +3,56 @@
 <div class="container-fluid px-xl-5">
     <section class="py-5">
         <div class="row">
-            <div class="col-lg-12 mb-4">
+            <!-- Form Elements -->
+            <div class="col-lg-12 mb-5">
                 <div class="card">
                     <div class="card-header">
-                        <a class="btn btn-primary" data-toggle="modal"
-                        data-target="#createModal" style="float: right">Tambah Barang</a>
+                        <h3 class="h6 text-uppercase mb-0"># Create Invoice</h3>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                        <table class="table table-striped table-hover card-text data-table">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Barang</th>
-                                    <th>Harga</th>
-                                    <th>Kuantiti</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                        </div>
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="form-control-label text-uppercase">Pilih Tanggal</label>
+                                <input type="date" name="tanggal" class="form-control">
+                            </div>
+                            <div class="table-responsive mt-5">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No</th>
+                                            <th scope="col">Product Name</th>
+                                            <th scope="col">Qty</th>
+                                            <th scope="col">Price</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="add_barang">
+                                        <td scope="row">1</td>
+                                        <td width="300px">
+                                            <select class="form-control select2 form-control-sm" name="barang_id">
+                                                @forelse ($barang_list as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                                @empty
+                                                    <option disabled="disabled">Tidak Ada Barang</option>
+                                                @endforelse
+                                            </select>
+                                        </td>
+                                        <td><input type="number" class="form-control form-control-sm" min=0 max=110 value="0" placeholder="Qty">
+                                        </td>
+                                        <td><input type="text" class="form-control" name="harga" id="harga"></td>
+                                        <td width="50px"><button type="button" id="tambah"
+                                                class="btn btn-sm btn-success">+</button></td>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="line"></div>
+                            <div class="form-group row">
+                                <div class="col-md-9 ml-auto">
+                                    <button type="submit" class="btn btn-secondary">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -32,47 +60,33 @@
     </section>
 </div>
 
-<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Buat User</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        <form action="{{ route('barang.store') }}"  method="POST" id="createForm" enctype="multipart/form-data">
-                @csrf
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Nama Barang</label>
-                    <input type="text" name="nama" class="form-control" id="nama">
-                </div>
-                <div class="form-group">
-                    <label for="message-text" class="col-form-label">Stok</label>
-                    <input type="number" name="stok" class="form-control" id="stok">
-                </div>
-                <div class="form-group">
-                    <label for="message-text" class="col-form-label">Harga</label>
-                    <input type="text" name="harga" class="form-control" id="harga">
-                    <small>Dalam rupiah</small>
-                </div>
-                <div class="form-group">
-                    <label for="message-text" class="col-form-label">Discount</label>
-                    <input type="number" name="discount" class="form-control" id="discount">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
-            </div>
-        </form>
-        </div>
-    </div>
-</div>
-
 <script type="text/javascript">
+    $(document).ready(function(){
+        var barang_list = @json($barang_list);
+        console.log(barang_list)
+
+        var no =1;
+        $('#tambah').click(function(){
+            no++;
+            $('#add_barang').append(`<tr id="row`+no+`">
+                <td>`+no+`</td>
+                <td width="300px">
+                    <select class="form-control select2 form-control-sm" name="barang_id">
+                    </select>
+                </td>
+                <td>
+                    <input type="number" class="form-control form-control-sm" min=0 max=110 value="0">
+                </td>
+                <td><input type="text" class="form-control" name="harga" id="harga"></td>
+                <td><button type="button" id=`+no+` class="btn btn-danger btn_remove">-</button></td>
+                </tr>`);
+        });
+
+        $(document).on('click', '.btn_remove', function(){
+            var button_id = $(this).attr("id");
+            $('#row'+button_id+'').remove();
+        });
+    });
 </script>
 
 @endsection

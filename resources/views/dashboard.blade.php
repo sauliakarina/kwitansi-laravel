@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Kwitansi LPKN</title>
+    <title>Invoice</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -32,10 +32,8 @@
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <!-- select2 -->
-    <link rel="stylesheet"
-        href="{{ asset('') }}/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-    <link rel="stylesheet" href="{{ asset('') }}/plugins/select2/css/select2.min.css">
-    <script src="{{ asset('') }}/plugins/select2/js/select2.full.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- sweetalert -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     {{-- mask number --}}
@@ -73,18 +71,16 @@
 <script src="{{ asset('') }}bubbly/vendor/popper.js/umd/popper.min.js"> </script>
 <script src="{{ asset('') }}bubbly/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="{{ asset('') }}bubbly/vendor/jquery.cookie/jquery.cookie.js"> </script>
-<script src="{{ asset('') }}bubbly/vendor/chart.js/Chart.min.js"></script>
+{{-- <script src="{{ asset('') }}bubbly/vendor/chart.js/Chart.min.js"></script> --}}
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-<script src="{{ asset('') }}bubbly/js/charts-home.js"></script>
+{{-- <script src="{{ asset('') }}bubbly/js/charts-home.js"></script> --}}
 <script src="{{ asset('') }}bubbly/js/front.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.select2').select2({
-            theme: 'bootstrap4'
-        })
+        $('.select2').select2()
         $(".select2-modal").select2({
-            dropdownParent: $("#modalUpload"),
+            dropdownParent: $("#modal"),
             theme: 'bootstrap4'
         })
     });

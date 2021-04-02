@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\Barang;
 use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -51,7 +52,10 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        return view('user.invoice.create');
+        $data = array(
+            'barang_list' => Barang::all()
+        );
+        return view('user.invoice.create',$data);
     }
 
     /**
