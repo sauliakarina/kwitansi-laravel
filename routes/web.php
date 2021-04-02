@@ -32,7 +32,7 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'user'], function () {
     Route::get('dashboard', 'user\HomeController@index')->name('user.dashboard');
     Route::get('invoice', 'user\InvoiceController@index')->name('user.invoice');
-    //Route::get('invoice/create', 'user\InvoiceController@create')->name('user.invoice.create');
+    Route::get('invoice/detail/{id}', 'user\InvoiceController@detail')->name('user.invoice.detail');
     //Route::post('invoice/store', 'user\InvoiceController@store')->name('user.invoice.store');
     Route::resource('invoice', 'user\InvoiceController');
 });

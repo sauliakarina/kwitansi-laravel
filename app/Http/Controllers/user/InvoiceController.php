@@ -4,8 +4,8 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
+use App\Models\Barang_invoice;
 use App\Models\Invoice;
-use App\Models\Invoice_barang;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,11 +30,25 @@ class InvoiceController extends Controller
                         return $row->user->name;
                     })
                     ->addColumn('status', function($row){
-                        $row->status;
+                        switch ($row->status) {
+                            case '0':
+                              return '<span class="label label-info">pending</span>';
+                              break;
+                            case '1':
+                                return '<span class="label label-success">approved</span>';
+                              break;
+                            case '2':
+                                return '<span class="label label-danger">declined</span>';
+                              break;
+                            case '3':
+                                return '<span class="label label-dark">canceled</span>';
+                              break;
+                          }
                     })
                     ->addColumn('action', function($row){
                         $btn = '<div class="btn-group btn-group-sm" role="group" aria-label="Small button group">';
-                        $btn .= '<a onclick="edit_barang('.$row->id.')" href="javascript:void(0)" class="edit btn btn-primary btn-sm"><i class="fas fa-pencil-alt"></i></a>';
+                        $btn .= '<a onclick="detail_invoice('.$row->id.')" href="javascript:void(0)" class="edit btn btn-info btn-sm"><i class="fas fa-info-circle"></i></a>';
+                        $btn .= '<a onclick="edit_invoice('.$row->id.')" href="javascript:void(0)" class="edit btn btn-primary btn-sm"><i class="fas fa-pencil-alt"></i></a>';
                         $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteUsers"><i class="fa fa-trash"></i></a>';
                         $btn .='</div>';
 
@@ -76,7 +90,7 @@ class InvoiceController extends Controller
         $kuantiti  = $request->kuantiti;
 
         for ($i=0; $i < count($barang_id); $i++) {
-            Invoice_barang::create([
+            Barang_invoice::create([
                 'barang_id'  => $barang_id[$i],
                 'invoice_id' => $invoice->id,
                 'kuantiti'   => $kuantiti[$i]
@@ -99,7 +113,12 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-        //
+        $invoice = Invoice::where('id', $id)->first();
+
+        return response()->json([
+            'invoice'    => $invoice,
+            'barangs'    => $invoice->barang
+        ], 200);
     }
 
     /**

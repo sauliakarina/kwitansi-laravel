@@ -13,7 +13,7 @@ class CreateInvoiceBarangTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoice_barang', function (Blueprint $table) {
+        Schema::create('barang_invoice', function (Blueprint $table) {
             $table->id();
             $table->integer('invoice_id');
             $table->integer('barang_id');
@@ -29,6 +29,6 @@ class CreateInvoiceBarangTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoice_barang');
+        Schema::dropIfExists('barang_invoice');
     }
 }

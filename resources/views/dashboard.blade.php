@@ -84,7 +84,6 @@
             theme: 'bootstrap4'
         })
     });
-
 </script>
 
 </body>

@@ -19,6 +19,11 @@ class Barang extends Model
 
     public function invoice()
     {
-    	return $this->belongsToMany('App\Invoice');
+    	return $this->belongsToMany('App\Models\Invoice','invoice_id','id');
     }
+
+    // public function invoice_barang()
+    // {
+    //     return $this->hasMany('App\Models\Invoice_barang','barang_id','id');
+    // }
 }

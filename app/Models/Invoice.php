@@ -19,4 +19,14 @@ class Invoice extends Model
     {
         return $this->belongsTo('App\Models\User','user_id','id');
     }
+
+    public function barang()
+    {
+    	return $this->belongsToMany('App\Models\Barang');
+    }
+
+    // public function invoice_barang()
+    // {
+    //     return $this->hasMany('App\Models\Invoice_barang','invoice_id','id');
+    // }
 }

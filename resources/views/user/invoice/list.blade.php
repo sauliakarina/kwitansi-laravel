@@ -32,6 +32,35 @@
     </section>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="ModalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Invoice #002</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-striped">
+                <thead class="table-success">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Product Name</th>
+                      <th scope="col">QTY</th>
+                      <th scope="col">Total</th>
+                    </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <script type="text/javascript">
     var table;
     $(function () {
@@ -78,7 +107,35 @@
     });
 
     function reload_table() {
-        table.ajax.reload(null, false); //reload datatable ajax
+        table.ajax.reload(null, false);
+    }
+
+    function detail_invoice(id) {
+        //$('#list_modul').text('');
+        console.log(id)
+        $.ajax({
+            url: "invoice/"+id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+            console.table(data.invoice);
+            // $('#id').text(data.id);
+            // $('#nama').text(data.nama);
+            // $('#harga').text(data.harga);
+            // $('#deskripsi').text(data.deskripsi);
+            // $('#cover_image').attr('src',data.cover_image);
+            // $('#checkout').attr('href',data.checkout);
+            // $('#daftar').attr('onclick',data.daftar);
+            // $.each(data.modul, function(i, modul) {
+            //     $('#list_modul').append('<li style="margin-bottom: 5px;">'+modul.nama+'</li>');
+            // });
+
+            $('#ModalDetail').modal('show');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            console.log('gagal mengambil data');
+            }
+        });
     }
 </script>
 
