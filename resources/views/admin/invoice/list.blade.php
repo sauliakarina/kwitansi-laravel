@@ -19,6 +19,7 @@
                                         <th>Tanggal Invoice</th>
                                         <th>Nama User</th>
                                         <th>Status</th>
+                                        <th>Detail</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -72,13 +73,14 @@
     </div>
 </div>
 
+
 <script type="text/javascript">
     var table;
     $(function () {
         table = $('.data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('invoice.index') }}",
+            ajax: "{{ route('invoices.index') }}",
             columns: [{
                     data: 'id',
                     name: 'id',
@@ -97,6 +99,13 @@
                 {
                     data: 'status',
                     name: 'status'
+                },
+                {
+                    data: 'detail',
+                    name: 'detail',
+                    orderable: false,
+                    searchable: false,
+                    className: "text-center"
                 },
                 {
                     data: 'action',
@@ -124,7 +133,7 @@
     function detail_invoice(id) {
         $('#barang_list').html('');
         $.ajax({
-            url: "invoice/" + id,
+            url: "invoices/" + id,
             type: "GET",
             dataType: "JSON",
             success: function (data) {
@@ -137,7 +146,7 @@
                     no++;
                     $('#barang_list').append(`
                         <tr>
-                            <td>`+no+`</td>
+                            <td>` + no + `</td>
                             <td>` + data.nama + `</td>
                             <td> Rp.` + data.harga + `</td>
                             <td>` + data.pivot.kuantiti + `</td>
@@ -154,6 +163,100 @@
         });
     }
 
+    function approve_invoice(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Invoice ini akan diapprove",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, approve it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('admin.invoice.approv') }}",
+                    data: {
+                        id: id
+                    },
+                    success: function (data) {
+                        Swal.fire(
+                            'Approved!',
+                            'This invoice has been approved.',
+                            'success'
+                        )
+                        table.ajax.reload();
+                    },
+                    error: function (data) {
+                        toastr.error('Not Approved', 'Error', {
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "showDuration": "2000",
+                            "hideDuration": "1000",
+                            "timeOut": "2000",
+                            "extendedTimeOut": "1000"
+                        })
+                    }
+                });
+            }
+        })
+    }
+
+    function decline_invoice(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Invoice ini akan didecline",
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off',
+                placeholder: 'Masukkan alasan/keterangan'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Ya, decline it!',
+            showLoaderOnConfirm: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var reason = result.value;
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('admin.invoice.decline') }}",
+                    data: {
+                        id: id,
+                        reason : reason
+                    },
+                    success: function (data) {
+                        Swal.fire(
+                            'Declineed!',
+                            'This invoice has been declined.',
+                            'success'
+                        )
+                        table.ajax.reload();
+                    },
+                    error: function (data) {
+                        toastr.error('Not Approved', 'Error', {
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "showDuration": "2000",
+                            "hideDuration": "1000",
+                            "timeOut": "2000",
+                            "extendedTimeOut": "1000"
+                        })
+                    }
+                });
+            }
+        })
+    }
 </script>
 
 @endsection

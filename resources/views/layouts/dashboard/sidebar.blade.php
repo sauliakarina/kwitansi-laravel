@@ -16,7 +16,7 @@
                         class="o-home-1 mr-3 text-gray"></i><span>Dashboard</span></a></li>
             <li class="sidebar-list-item"><a href="{{ route('user.index') }}" class="sidebar-link text-muted"><i class="fas fa-user-friends mr-3 text-gray"></i><span>Users</span></a></li>
             <li class="sidebar-list-item"><a href="{{ route('barang.index') }}" class="sidebar-link text-muted"><i class="fas fa-cubes mr-3 text-gray"></i><span> Barang</span></a></li>
-            <li class="sidebar-list-item"><a href="{{ route('admin.invoice') }}" class="sidebar-link text-muted"><i
+            <li class="sidebar-list-item"><a href="{{ route('invoices.index') }}" class="sidebar-link text-muted"><i
                         class="o-survey-1 mr-3 text-gray"></i><span>Invoice</span></a></li>
         @elserole('user')
             <li class="sidebar-list-item"><a href="{{ route('user.dashboard') }}" class="sidebar-link text-muted"><i

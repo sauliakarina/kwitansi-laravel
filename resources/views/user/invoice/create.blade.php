@@ -24,7 +24,7 @@
                                             <th scope="col">No</th>
                                             <th scope="col">Product Name</th>
                                             <th scope="col">Qty</th>
-                                            <th scope="col">Price</th>
+                                            {{-- <th scope="col">Price</th> --}}
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -42,7 +42,7 @@
                                         <td><input type="number" name="kuantiti[]" class="form-control form-control-sm"
                                                 min=0 max=110 value="0" placeholder="Qty">
                                         </td>
-                                        <td><input type="text" class="form-control" name="harga" id="harga"></td>
+                                        {{-- <td><input type="text" class="form-control" name="harga" id="harga"></td> --}}
                                         <td width="50px"><button type="button" id="tambah"
                                                 class="btn btn-sm btn-success">+</button></td>
                                     </tbody>
@@ -79,7 +79,6 @@
                     <td>
                         <input type="number" name="kuantiti[]" class="form-control form-control-sm" min=0 max=110 value="0">
                     </td>
-                    <td><input type="text" class="form-control" name="harga" id="harga"></td>
                     <td><button type="button" id=` + no + ` class="btn btn-danger btn_remove">-</button></td>
                 </tr>
             `);
