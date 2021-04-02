@@ -11,6 +11,10 @@ class Invoice extends Model
 
     protected $table = 'invoice';
 
+    protected $fillable = [
+        'user_id','tanggal','status','reason','waktu_approve'
+    ];
+
     public function user()
     {
         return $this->belongsTo('App\Models\User','user_id','id');

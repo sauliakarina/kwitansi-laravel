@@ -5,6 +5,7 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Invoice;
+use App\Models\Invoice_barang;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -66,7 +67,28 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $invoice = Invoice::create([
+            'user_id' => Auth::user()->id,
+            'tanggal' => $request->tanggal,
+        ]);
+
+        $barang_id = $request->barang_id;
+        $kuantiti  = $request->kuantiti;
+
+        for ($i=0; $i < count($barang_id); $i++) {
+            Invoice_barang::create([
+                'barang_id'  => $barang_id[$i],
+                'invoice_id' => $invoice->id,
+                'kuantiti'   => $kuantiti[$i]
+            ]);
+        }
+
+        return response()->json([
+            'status'    => "ok",
+            'messages' => "Berhasil ditambah",
+            'route' => route('invoice.index')
+        ], 200);
+
     }
 
     /**

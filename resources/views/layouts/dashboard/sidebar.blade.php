@@ -21,7 +21,7 @@
         @elserole('user')
             <li class="sidebar-list-item"><a href="{{ route('user.dashboard') }}" class="sidebar-link text-muted"><i
                         class="o-home-1 mr-3 text-gray"></i><span>Dashboard</span></a></li>
-            <li class="sidebar-list-item"><a href="{{ route('user.invoice') }}" class="sidebar-link text-muted"><i
+            <li class="sidebar-list-item"><a href="{{ route('invoice.index') }}" class="sidebar-link text-muted"><i
                         class="o-table-content-1 mr-3 text-gray"></i><span>Invoice</span></a></li>
             {{-- <li class="sidebar-list-item"><a href="{{ route('user.profile') }}" class="sidebar-link text-muted"><i
                         class="o-survey-1 mr-3 text-gray"></i><span>Profile</span></a></li> --}}

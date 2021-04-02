@@ -6,7 +6,7 @@
             <div class="col-lg-12 mb-4">
                 <div class="card">
                     <div class="card-header">
-                        <a class="btn btn-primary" href="{{ route('user.invoice.create') }}" style="float: right">Buat Invoice</a>
+                        <a class="btn btn-primary" href="{{ route('invoice.create') }}" style="float: right">Buat Invoice</a>
                     </div>
                     <div class="card-body">
                         {{-- <h6 class="text-uppercase mb-0">Daftar User</h6> --}}
@@ -38,7 +38,7 @@
         table = $('.data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('user.invoice') }}",
+            ajax: "{{ route('invoice.index') }}",
             columns: [{
                     data: 'id',
                     name: 'id',
