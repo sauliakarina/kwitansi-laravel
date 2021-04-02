@@ -6,24 +6,25 @@
             <div class="col-lg-12 mb-4">
                 <div class="card">
                     <div class="card-header">
-                        <a class="btn btn-primary" href="{{ route('invoice.create') }}" style="float: right">Buat Invoice</a>
+                        <a class="btn btn-primary" href="{{ route('invoice.create') }}"
+                            style="float: right">Buat Invoice</a>
                     </div>
                     <div class="card-body">
                         {{-- <h6 class="text-uppercase mb-0">Daftar User</h6> --}}
                         <div class="table-responsive">
-                        <table class="table table-striped table-hover card-text data-table">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Tanggal Invoice</th>
-                                    <th>Nama User</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                            <table class="table table-striped table-hover card-text data-table">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Tanggal Invoice</th>
+                                        <th>Nama User</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -33,33 +34,43 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="ModalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Invoice #002</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Invoice #</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="tanggal"></p>
+                <p id="status"></p>
+                {{-- <ul id="invoice_list" style="list-style-type:none">
+                <li>Tanggal : </li>
+                <li>Status : </li>
+            </ul> --}}
+                <table class="table table-striped mt-2">
+                    <thead class="table-success">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Harga</th>
+                            <th scope="col">QTY</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    <tbody id="barang_list">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
-        <div class="modal-body">
-            <table class="table table-striped">
-                <thead class="table-success">
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Product Name</th>
-                      <th scope="col">QTY</th>
-                      <th scope="col">Total</th>
-                    </tr>
-            </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
 <script type="text/javascript">
     var table;
@@ -111,32 +122,37 @@
     }
 
     function detail_invoice(id) {
-        //$('#list_modul').text('');
-        console.log(id)
         $.ajax({
-            url: "invoice/"+id,
+            url: "invoice/" + id,
             type: "GET",
             dataType: "JSON",
-            success: function(data) {
-            console.table(data.invoice);
-            // $('#id').text(data.id);
-            // $('#nama').text(data.nama);
-            // $('#harga').text(data.harga);
-            // $('#deskripsi').text(data.deskripsi);
-            // $('#cover_image').attr('src',data.cover_image);
-            // $('#checkout').attr('href',data.checkout);
-            // $('#daftar').attr('onclick',data.daftar);
-            // $.each(data.modul, function(i, modul) {
-            //     $('#list_modul').append('<li style="margin-bottom: 5px;">'+modul.nama+'</li>');
-            // });
+            success: function (data) {
 
-            $('#ModalDetail').modal('show');
+                $('#tanggal').text(`Tanggal : ` + data.tanggal);
+                $('#status').text(`Status : ` + data.status);
+                var no = 0;
+                $.each(data.barangs, function (i, data) {
+                    var total = data.pivot.kuantiti * data.harga;
+                    no++;
+                    $('#barang_list').append(`
+                        <tr>
+                            <td>`+no+`</td>
+                            <td>` + data.nama + `</td>
+                            <td> Rp.` + data.harga + `</td>
+                            <td>` + data.pivot.kuantiti + `</td>
+                            <td> Rp.` + total + `</td>
+                        </tr>
+                    `);
+                });
+
+                $('#ModalDetail').modal('show');
             },
-            error: function(jqXHR, textStatus, errorThrown) {
-            console.log('gagal mengambil data');
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log('gagal mengambil data');
             }
         });
     }
+
 </script>
 
 @endsection

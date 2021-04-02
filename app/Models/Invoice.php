@@ -22,7 +22,7 @@ class Invoice extends Model
 
     public function barang()
     {
-    	return $this->belongsToMany('App\Models\Barang');
+    	return $this->belongsToMany('App\Models\Barang')->withPivot('kuantiti');
     }
 
     // public function invoice_barang()

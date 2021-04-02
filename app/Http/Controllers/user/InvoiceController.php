@@ -115,9 +115,26 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::where('id', $id)->first();
 
+        switch ($invoice->status) {
+            case '0':
+              $status = 'pending';
+              break;
+            case '1':
+                $status = 'approved';
+              break;
+            case '2':
+                $status = 'declined';
+              break;
+            case '3':
+                $status = 'canceled';
+              break;
+          }
+
         return response()->json([
             'invoice'    => $invoice,
-            'barangs'    => $invoice->barang
+            'barangs'    => $invoice->barang,
+            'tanggal'    => Carbon::parse($invoice->tanggal)->format('d F Y'),
+            'status'     => $status
         ], 200);
     }
 
