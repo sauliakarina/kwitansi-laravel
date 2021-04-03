@@ -54,6 +54,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Product Name</th>
                             <th scope="col">Harga</th>
+                            <th scope="col">Discount</th>
                             <th scope="col">QTY</th>
                             <th scope="col">Total</th>
                         </tr>
@@ -126,6 +127,12 @@
         table.ajax.reload(null, false);
     }
 
+    function total_harga(harga,qty,diskon){
+		diskon = (100 - diskon)/100;
+        total = (harga * diskon) * qty;
+        return total;
+	}
+
     function detail_invoice(id) {
         $('#barang_list').html('');
         $.ajax({
@@ -138,13 +145,14 @@
                 $('#status').text(`Status : ` + data.status);
                 var no = 0;
                 $.each(data.barangs, function (i, data) {
-                    var total = data.pivot.kuantiti * data.harga;
+                    var total = total_harga(data.harga,data.pivot.kuantiti,data.discount);
                     no++;
                     $('#barang_list').append(`
                         <tr>
                             <td>` + no + `</td>
                             <td>` + data.nama + `</td>
                             <td> Rp.` + data.harga + `</td>
+                            <td>` + data.discount + `%</td>
                             <td>` + data.pivot.kuantiti + `</td>
                             <td> Rp.` + total + `</td>
                         </tr>
@@ -187,7 +195,7 @@
                             'This invoice has been approved.',
                             'success'
                         )
-                        table.ajax.reload();
+                        reload_table();
                     },
                     error: function (data) {
                         toastr.error('Not Approved', 'Error', {
@@ -282,7 +290,7 @@
                             'This invoice has been declined.',
                             'success'
                         )
-                        table.ajax.reload();
+                        reload_table();
                     },
                     error: function (data) {
                         toastr.error('Not Approved', 'Error', {

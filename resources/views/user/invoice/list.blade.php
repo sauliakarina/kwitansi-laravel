@@ -121,6 +121,12 @@
         table.ajax.reload(null, false);
     }
 
+    function total_harga(harga,qty,diskon){
+		diskon = (100 - diskon)/100;
+        total = (harga * diskon) * qty;
+        return total;
+	}
+
     function detail_invoice(id) {
         $('#barang_list').html('');
         $.ajax({
@@ -133,7 +139,7 @@
                 $('#status').text(`Status : ` + data.status);
                 var no = 0;
                 $.each(data.barangs, function (i, data) {
-                    var total = data.pivot.kuantiti * data.harga;
+                    var total = total_harga(data.harga,data.pivot.kuantiti,data.discount);
                     no++;
                     $('#barang_list').append(`
                         <tr>
