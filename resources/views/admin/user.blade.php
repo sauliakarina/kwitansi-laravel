@@ -157,6 +157,50 @@
         });
     });
 
+    $('body').on('click', '.deleteUsers', function () {
+        var id = $(this).data("id");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "User ini akan terhapus beserta invoice",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: 'DELETE',
+                    url: "user/"+id,
+                    success: function (data) {
+                        Swal.fire(
+                            'Deleted!',
+                            'This user has been deleted.',
+                            'success'
+                        )
+                        reload_table();
+                    },
+                    error: function (data) {
+                        toastr.error('Not Deleted', 'Error', {
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "showDuration": "2000",
+                            "hideDuration": "1000",
+                            "timeOut": "2000",
+                            "extendedTimeOut": "1000"
+                        })
+                    }
+                });
+            }
+        })
+    });
+
 </script>
 
 @endsection

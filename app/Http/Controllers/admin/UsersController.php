@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Dotenv\Validator;
@@ -128,6 +129,27 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $delete = $user->delete();
+
+        $invoice = Invoice::where([
+            ['user_id', $id],
+            ['status', '0']
+        ])->get();
+
+        $invoice->delete();
+
+        if ($delete) {
+            return response()->json([
+                'status'    => "ok",
+                'messages' => "Berhasil dihapus",
+            ], 200);
+        } else {
+            return response()->json([
+                'status'    => "fail",
+                'messages' => 'Gagal dihapus',
+            ], 422);
+        }
+
     }
 }

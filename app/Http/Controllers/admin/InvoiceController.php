@@ -60,7 +60,7 @@ class InvoiceController extends Controller
                         $btn = '<div class="btn-group btn-group-sm" role="group" aria-label="Small button group">';
 
                         if ($row->status == '1' && $mins <= 30) {
-                            $btn .= '<button onclick="cancel_invoice('.$row->id.')" href="javascript:void(0)" class="edit btn btn-secondary btn-sm" >Cancel Approve</button>';
+                            $btn .= '<button onclick="cancel_invoice('.$row->id.')" href="javascript:void(0)" class="edit btn btn-secondary btn-sm" >Cancel</button>';
                         } elseif ($row->status == '1') {
                             $btn .= '<button onclick="approve_invoice('.$row->id.')" href="javascript:void(0)" class="edit btn btn-primary btn-sm" disabled>Approve</button>';
                         } else {
