@@ -26,6 +26,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('dashboard', 'admin\HomeController@index')->name('admin.dashboard');
     Route::post('invoice/approv', 'admin\InvoiceController@approv')->name('admin.invoice.approv');
     Route::post('invoice/decline', 'admin\InvoiceController@decline')->name('admin.invoice.decline');
+    Route::post('invoice/cancel', 'admin\InvoiceController@cancel')->name('admin.invoice.cancel');
     Route::resource('user', 'admin\UsersController');
     Route::resource('barang', 'admin\BarangController');
     Route::resource('invoices', 'admin\InvoiceController');

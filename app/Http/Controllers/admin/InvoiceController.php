@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Barang;
+use App\Models\Barang_invoice;
 use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
@@ -50,9 +53,19 @@ class InvoiceController extends Controller
                             return $btn;
                     })
                     ->addColumn('action', function($row){
+                        $approved_at = Carbon::parse($row->updated_at);
+                        $now         = Carbon::now();
+                        $mins        = $now->diffInMinutes($approved_at, true);
+
                         $btn = '<div class="btn-group btn-group-sm" role="group" aria-label="Small button group">';
-                        $disable = ($row->status == '1') ? 'disabled' : '' ;
-                        $btn .= '<button onclick="approve_invoice('.$row->id.')" href="javascript:void(0)" class="edit btn btn-primary btn-sm" '.$disable.'>Approve</button>';
+
+                        if ($row->status == '1' && $mins <= 30) {
+                            $btn .= '<button onclick="cancel_invoice('.$row->id.')" href="javascript:void(0)" class="edit btn btn-secondary btn-sm" >Cancel Approve</button>';
+                        } elseif ($row->status == '1') {
+                            $btn .= '<button onclick="approve_invoice('.$row->id.')" href="javascript:void(0)" class="edit btn btn-primary btn-sm" disabled>Approve</button>';
+                        } else {
+                            $btn .= '<button onclick="approve_invoice('.$row->id.')" href="javascript:void(0)" class="edit btn btn-primary btn-sm">Approve</button>';
+                        }
 
                         $disable = ($row->status == '2') ? 'disabled' : '' ;
                         $btn .= '<button onclick="decline_invoice('.$row->id.')" href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Decline" class="btn btn-danger btn-sm deleteUsers" '.$disable.'>Decline</button>';
@@ -72,7 +85,10 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        //
+        $data = array(
+            'barang_list' => Barang::all()
+        );
+        return view('admin.invoice.create',$data);
     }
 
     /**
@@ -83,7 +99,28 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $invoice = Invoice::create([
+            'user_id' => Auth::user()->id,
+            'tanggal' => $request->tanggal,
+        ]);
+
+        $barang_id = $request->barang_id;
+        $kuantiti  = $request->kuantiti;
+
+        for ($i=0; $i < count($barang_id); $i++) {
+            Barang_invoice::create([
+                'barang_id'  => $barang_id[$i],
+                'invoice_id' => $invoice->id,
+                'kuantiti'   => $kuantiti[$i]
+            ]);
+        }
+
+        return response()->json([
+            'status'    => "ok",
+            'messages' => "Berhasil ditambah",
+            'route' => route('invoices.index')
+        ], 200);
+
     }
 
     /**
@@ -159,7 +196,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($request->id);
 
         $invoice->status = '1';
-        $invoice->waktu_approve = Carbon::now()->toDateString();
+        // $invoice->waktu_approve = Carbon::now()->toDateString();
 
         $save = $invoice->save();
 
@@ -182,6 +219,27 @@ class InvoiceController extends Controller
 
         $invoice->status        = '2';
         $invoice->reason        = $request->reason;
+
+        $save = $invoice->save();
+
+        if ($save) {
+            return response()->json([
+                'status'    => "ok",
+                'messages' => "Berhasil diupdate",
+            ], 200);
+        } else {
+            return response()->json([
+                'status'    => "fail",
+                'messages' => 'Gagal diupdate',
+            ], 422);
+        }
+    }
+
+    public function cancel(Request $request)
+    {
+        $invoice = Invoice::find($request->id);
+
+        $invoice->status = '3';
 
         $save = $invoice->save();
 

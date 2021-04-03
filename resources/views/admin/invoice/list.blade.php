@@ -6,7 +6,7 @@
             <div class="col-lg-12 mb-4">
                 <div class="card">
                     <div class="card-header">
-                        <a class="btn btn-primary" href="{{ route('invoice.create') }}"
+                        <a class="btn btn-primary" href="{{ route('invoices.create') }}"
                             style="float: right">Buat Invoice</a>
                     </div>
                     <div class="card-body">
@@ -48,10 +48,6 @@
             <div class="modal-body">
                 <p id="tanggal"></p>
                 <p id="status"></p>
-                {{-- <ul id="invoice_list" style="list-style-type:none">
-                <li>Tanggal : </li>
-                <li>Status : </li>
-            </ul> --}}
                 <table class="table table-striped mt-2">
                     <thead class="table-success">
                         <tr>
@@ -189,6 +185,51 @@
                         Swal.fire(
                             'Approved!',
                             'This invoice has been approved.',
+                            'success'
+                        )
+                        table.ajax.reload();
+                    },
+                    error: function (data) {
+                        toastr.error('Not Approved', 'Error', {
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "showDuration": "2000",
+                            "hideDuration": "1000",
+                            "timeOut": "2000",
+                            "extendedTimeOut": "1000"
+                        })
+                    }
+                });
+            }
+        })
+    }
+
+    function cancel_invoice(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Invoice ini akan dibatalkan",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, approve it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('admin.invoice.cancel') }}",
+                    data: {
+                        id: id
+                    },
+                    success: function (data) {
+                        Swal.fire(
+                            'Canceled!',
+                            'This invoice has been canceled.',
                             'success'
                         )
                         table.ajax.reload();
